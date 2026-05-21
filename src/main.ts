@@ -1,4 +1,4 @@
-import shaka from "shaka-player";
+import shaka from "shaka-player/dist/shaka-player.compiled.debug.js";
 
 const START_WITH_LOW_BITRATE = true;
 
