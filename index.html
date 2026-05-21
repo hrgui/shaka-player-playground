@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shaka Player Playground</title>
+  </head>
+  <body>
+    <video
+      id="video"
+      width="640"
+      poster="//shaka-player-demo.appspot.com/assets/poster.jpg"
+      controls
+      autoplay
+      muted
+      playsinline
+    ></video>
+    <div id="player-log" style="font-family: system-ui, sans-serif; margin-top: 1rem"></div>
+    <div
+      id="bitrate-history"
+      style="font-family: system-ui, sans-serif; margin-top: 1rem; white-space: pre-wrap"
+    >
+      <strong>Bitrate history:</strong>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
