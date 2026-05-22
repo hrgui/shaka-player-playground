@@ -1,4 +1,5 @@
-import shaka from "shaka-player/dist/shaka-player.compiled.debug.js";
+// Use the global `shaka` provided by the CDN script tag in index.html
+declare const shaka: any;
 
 const START_WITH_LOW_BITRATE = true;
 
@@ -27,7 +28,7 @@ async function initPlayer() {
 
   const player = new shaka.Player(video);
 
-  const shakaConfig: Partial<shaka.extern.PlayerConfiguration> = {
+  const shakaConfig: any = {
     //@ts-ignore test
     abr: {
       useNetworkInformation: !START_WITH_LOW_BITRATE,
@@ -45,8 +46,30 @@ async function initPlayer() {
   video.autoplay = true;
   video.muted = true;
 
+  // Wire up UI controls that interact with playback.
+  const jumpBtn = document.getElementById("jump-12s");
+  if (jumpBtn) {
+    jumpBtn.addEventListener("click", () => {
+      const duration = Number.isFinite(video.duration) ? video.duration : NaN;
+      let target = 0;
+      if (Number.isFinite(duration)) {
+        target = Math.max(0, duration - 12);
+      }
+      logMessage(`Jumping to ${target.toFixed(1)}s`);
+      try {
+        if (player && typeof (player as any).seek === "function") {
+          (player as any).seek(target);
+        } else {
+          video.currentTime = target;
+        }
+      } catch (err) {
+        video.currentTime = target;
+      }
+    });
+  }
+
   let preloadStarted = false;
-  let preloadManager: shaka.media.PreloadManager | null = null;
+  let preloadManager: any | null = null;
 
   const logMessage = (message: string) => {
     const log = document.getElementById("player-log");

@@ -16,6 +16,10 @@
       muted
       playsinline
     ></video>
+    <button id="jump-12s" style="margin-top: 0.5rem">Jump to -12s</button>
+    <div id="shaka-version" style="font-family: system-ui, sans-serif; margin-top: 0.5rem">
+      Shaka: unknown
+    </div>
     <div id="player-log" style="font-family: system-ui, sans-serif; margin-top: 1rem"></div>
     <div
       id="bitrate-history"
@@ -23,6 +27,30 @@
     >
       <strong>Bitrate history:</strong>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.15.35/dist/shaka-player.compiled.debug.js"></script>
+    <script>
+      // Populate the Shaka version display if available.
+      (function () {
+        function setVersion() {
+          var el = document.getElementById("shaka-version");
+          if (!el) return;
+          if (window.shaka && window.shaka.Player && window.shaka.Player.version) {
+            el.textContent = "Shaka: " + window.shaka.Player.version;
+          } else if (window.shaka && window.shaka.version) {
+            el.textContent = "Shaka: " + window.shaka.version;
+          } else {
+            el.textContent = "Shaka: (not detected)";
+          }
+        }
+
+        // If the CDN script hasn't executed yet, wait a tick.
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+          setVersion();
+        } else {
+          document.addEventListener("DOMContentLoaded", setVersion);
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
